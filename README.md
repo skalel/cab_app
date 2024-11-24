@@ -9,7 +9,7 @@
 O backend deverá ser uma API Rest em NodeJS e Typescript, e terá os
 seguintes endpoints:
 
-* POST /ride/estimate 
+* __POST /ride/estimate__ 
 
 Responsável por receber a origem e o destino da viagem e realizar os
 cálculos dos valores da viagem.\
@@ -42,7 +42,7 @@ o mais caro, cada um contendo:
   * O valor total da corrida.
 * A resposta original da rota no Google.
 
-* PATCH /ride/confirm
+* __PATCH /ride/confirm__
 
 Responsável por confirmar a viagem e gravá-la no histórico.\
 Esse endpoint deve fazer as seguintes validações:
@@ -68,7 +68,7 @@ Ela irá retornar:
 
 * Resposta de OK ou ERRO dependendo do valor informado.
 
-* GET /ride/{customer_id}?driver_id={id do motorista}
+* __GET /ride/{customer_id}?driver_id={id do motorista}__
 
 Responsável por listar as viagens realizadas por um determinado
 usuário\
@@ -93,7 +93,7 @@ Ela irá retornar:
 O Frontend deverá ser uma Single Page Application em React e
 TypeScript e terá as seguintes telas:
 
-Solicitação de viagem
+__Solicitação de viagem__
 
 * Deve conter um formulário com os campos para informar o id do
 usuário, o endereço de origem e o endereço de destino e um
@@ -102,7 +102,7 @@ botão para estimar o valor da viagem
 necessários, ao receber a resposta deve exibir a tela de opções de
 viagem
 
-Opções de viagem
+__Opções de viagem__
 
 * Deve mostrar um mapa estático com a rota retornada na
 estimativa plotada, indicando o ponto A e o ponto B.
@@ -117,7 +117,7 @@ requisição para a API e confirmar a viagem.
 * Após confirmar a viagem, deve direcionar automaticamente para
 a tela de histórico de viagens.
 
-Histórico de viagens
+__Histórico de viagens__
 
 * Deve mostrar um campo para informar o id do usuário, um
 seletor de motorista, com uma opção para mostrar todos e um
@@ -131,7 +131,7 @@ botão para aplicar o filtro.
   * tempo.
   * valor.
 
-Tratamento de erros
+__Tratamento de erros__
 
 Em todas as telas, os erros devem ser exibidos para o usuário,
 permitindo que ele verifique o problema e tente novamente.

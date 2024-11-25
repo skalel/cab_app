@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { login, create } from "./controllers/AuthController";
 import ValidateAuth from "./services/ValidateAuth";
+import usersRouter from "./routes/users.router";
 
 const routes = Router();
 
@@ -9,9 +10,7 @@ routes.post('/signup', create);
 
 routes.use(ValidateAuth)
 
-routes.get('/', (req, res) => {
-  res.send('hello world')
-});
+routes.use('/user', usersRouter);
 
 
 export default routes;

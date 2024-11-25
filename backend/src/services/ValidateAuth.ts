@@ -16,8 +16,6 @@ function ValidateAuth(req: Request, res: Response, next: NextFunction): void {
 		return;
 	}
 
-	console.log(decodedToken);
-
 	next();
 }
 

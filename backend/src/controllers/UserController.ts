@@ -1,17 +1,7 @@
 import { Request, Response } from "express";
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "../services/Prisma";
 
 import bcrypt from "bcrypt";
-
-const prisma = new PrismaClient();
-
-interface User {
-	name: string;
-	email: string;
-	telephone?: string;
-	role: string;
-	password: string;
-}
 
 export default class UserController {
 	public async all(req: Request, res: Response) {

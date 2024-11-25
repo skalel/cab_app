@@ -8,21 +8,21 @@ datasource db {
 }
 
 model User {
-  id         Int      @id @unique @default(autoincrement())
+  id         String   @id @default(uuid())
   password   String   @default("0")
   email      String   @unique
   name       String
   telephone  String?
   role       UserRole @default(USER)
-  travels    Travel[]
-  ratings    Rating[]
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
+  ratings    Rating[]
+  travels    Travel[]
 }
 
 model Travel {
   id        String   @id @unique @default(uuid())
-  user_id   Int
+  user_id   String
   driver_id Int
   distance  Float
   origin    Json
@@ -31,9 +31,11 @@ model Travel {
   duration  Float
   status    Statuses @default(CREATED)
   rating    Rating[]
+  driver    Driver   @relation(fields: [driver_id], references: [id])
+  user      User     @relation(fields: [user_id], references: [id])
 
-  driver Driver @relation(fields: [driver_id], references: [id])
-  user   User   @relation(fields: [user_id], references: [id])
+  @@index([driver_id], map: "Travel_driver_id_fkey")
+  @@index([user_id], map: "Travel_user_id_fkey")
 }
 
 model Driver {
@@ -42,23 +44,26 @@ model Driver {
   email        String?  @unique
   description  String
   car          String
-  rating       Rating[]
   tax          Float
   min_distance Float
+  rating       Rating[]
   travels      Travel[]
 }
 
 model Rating {
   id          Int    @id @unique @default(autoincrement())
-  user_id     Int
+  user_id     String
   driver_id   Int
   travel_id   String
   rating      Int
   description String
+  driver      Driver @relation(fields: [driver_id], references: [id])
+  travel      Travel @relation(fields: [travel_id], references: [id])
+  user        User   @relation(fields: [user_id], references: [id])
 
-  travel Travel @relation(fields: [travel_id], references: [id])
-  driver Driver @relation(fields: [driver_id], references: [id])
-  user   User   @relation(fields: [user_id], references: [id])
+  @@index([driver_id], map: "Rating_driver_id_fkey")
+  @@index([travel_id], map: "Rating_travel_id_fkey")
+  @@index([user_id], map: "Rating_user_id_fkey")
 }
 
 enum UserRole {

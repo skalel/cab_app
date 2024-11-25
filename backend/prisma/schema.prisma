@@ -1,0 +1,76 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DB_CONNECTION_STRING")
+}
+
+model User {
+  id         Int      @id @unique @default(autoincrement())
+  password   String   @default("0")
+  email      String   @unique
+  name       String
+  telephone  String?
+  role       UserRole @default(USER)
+  travels    Travel[]
+  ratings    Rating[]
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Travel {
+  id        String   @id @unique @default(uuid())
+  user_id   Int
+  driver_id Int
+  distance  Float
+  origin    Json
+  destiny   Json
+  cost      Float
+  duration  Float
+  status    Statuses @default(CREATED)
+  rating    Rating[]
+
+  driver Driver @relation(fields: [driver_id], references: [id])
+  user   User   @relation(fields: [user_id], references: [id])
+}
+
+model Driver {
+  id           Int      @id @unique @default(autoincrement())
+  name         String
+  email        String?  @unique
+  description  String
+  car          String
+  rating       Rating[]
+  tax          Float
+  min_distance Float
+  travels      Travel[]
+}
+
+model Rating {
+  id          Int    @id @unique @default(autoincrement())
+  user_id     Int
+  driver_id   Int
+  travel_id   String
+  rating      Int
+  description String
+
+  travel Travel @relation(fields: [travel_id], references: [id])
+  driver Driver @relation(fields: [driver_id], references: [id])
+  user   User   @relation(fields: [user_id], references: [id])
+}
+
+enum UserRole {
+  VIEWER
+  USER
+  DRIVER
+  ADMIN
+}
+
+enum Statuses {
+  CREATED
+  IN_PROGRESS
+  FINISHED
+  CANCELED
+}

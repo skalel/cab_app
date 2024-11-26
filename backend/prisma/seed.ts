@@ -8,7 +8,7 @@ async function main() {
 			{
 				name: "Admin",
 				email: "admin@admin.com",
-				password: "admin@admin.com",
+				password: "admin@123",
 				telephone: "551122334455",
 			},
 			{ name: "Alice", email: "alice@example.com", telephone: "551122334455" },

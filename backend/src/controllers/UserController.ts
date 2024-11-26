@@ -1,8 +1,9 @@
 import { Request, Response } from "express";
 import { prisma } from "../services/Prisma";
 
-import bcrypt from "bcrypt";
-
+interface User {
+	id: number
+}
 export default class UserController {
 	public async all(req: Request, res: Response) {
 		try {
@@ -22,7 +23,7 @@ export default class UserController {
 		}
 	}
 
-	public async findById(req: Request, res: Response) {
+	public async findById(req: Request<User>, res: Response) {
 		try {
 			const user = await prisma.user.findFirstOrThrow({
 				where: {
@@ -43,7 +44,7 @@ export default class UserController {
 		}
 	}
 
-	public async update(req: Request, res: Response) {
+	public async update(req: Request<User>, res: Response) {
 		try {
 			const user = await prisma.user.update({
 				where: {
@@ -72,7 +73,7 @@ export default class UserController {
 		}
 	}
 
-	public async delete(req: Request, res: Response) {
+	public async delete(req: Request<User>, res: Response) {
 		try {
 			const user = await prisma.user.delete({
 				where: {

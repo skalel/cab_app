@@ -16,7 +16,13 @@ async function login(req: Request, res: Response): Promise<void> {
 			},
 		});
 
-		if (!user || !bcrypt.compareSync(password, user.password)) {
+		// Implementado para validação de senha encriptada
+		//
+		// if (!user || !bcrypt.compareSync(password, user.password)) {
+		// 	res.status(401).json({ message: "Invalid email or password" });
+		// }
+
+		if(password !== user.password || user.password === "0"){
 			res.status(401).json({ message: "Invalid email or password" });
 		}
 
@@ -33,7 +39,8 @@ async function login(req: Request, res: Response): Promise<void> {
 
 async function create(req: Request, res: Response) {
 	try {
-		const hashedPassword = await bcrypt.hash(req.body.password, 10);
+		// Inutilizado, não será necessário lidar com encriptação
+		// const hashedPassword = await bcrypt.hash(req.body.password, 10);
 		const email = req.body.email;
 		const checkEmailExists = await prisma.user.findFirst({
 			where: {
@@ -47,7 +54,7 @@ async function create(req: Request, res: Response) {
 					email: req.body.email,
 					telephone: req.body.telephone,
 					role: req.body.role,
-					password: hashedPassword,
+					password: req.body.password,
 				},
 			});
 			res.status(201).send({

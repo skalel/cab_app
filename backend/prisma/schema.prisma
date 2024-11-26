@@ -9,7 +9,7 @@ datasource db {
 }
 
 model User {
-  id         String   @id @default(uuid())
+  id         Int      @id @unique @default(autoincrement())
   password   String   @default("0")
   email      String   @unique
   name       String
@@ -17,13 +17,12 @@ model User {
   role       UserRole @default(USER)
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
-  ratings    Rating[]
   travels    Travel[]
 }
 
 model Travel {
   id        String   @id @unique @default(uuid())
-  user_id   String
+  user_id   Int
   driver_id Int
   distance  Float
   origin    Json
@@ -31,7 +30,6 @@ model Travel {
   cost      Float
   duration  Float
   status    Statuses @default(CREATED)
-  rating    Rating[]
   driver    Driver   @relation(fields: [driver_id], references: [id])
   user      User     @relation(fields: [user_id], references: [id])
 
@@ -47,24 +45,8 @@ model Driver {
   car          String
   tax          Float
   min_distance Float
-  rating       Rating[]
+  rating       Json?
   travels      Travel[]
-}
-
-model Rating {
-  id          Int    @id @unique @default(autoincrement())
-  user_id     String
-  driver_id   Int
-  travel_id   String
-  rating      Int
-  description String
-  driver      Driver @relation(fields: [driver_id], references: [id])
-  travel      Travel @relation(fields: [travel_id], references: [id])
-  user        User   @relation(fields: [user_id], references: [id])
-
-  @@index([driver_id], map: "Rating_driver_id_fkey")
-  @@index([travel_id], map: "Rating_travel_id_fkey")
-  @@index([user_id], map: "Rating_user_id_fkey")
 }
 
 enum UserRole {

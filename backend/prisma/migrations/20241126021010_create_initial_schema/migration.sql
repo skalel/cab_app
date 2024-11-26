@@ -1,6 +1,6 @@
 -- CreateTable
 CREATE TABLE `User` (
-    `id` VARCHAR(191) NOT NULL,
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
     `password` VARCHAR(191) NOT NULL DEFAULT '0',
     `email` VARCHAR(191) NOT NULL,
     `name` VARCHAR(191) NOT NULL,
@@ -9,6 +9,7 @@ CREATE TABLE `User` (
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updated_at` DATETIME(3) NOT NULL,
 
+    UNIQUE INDEX `User_id_key`(`id`),
     UNIQUE INDEX `User_email_key`(`email`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -16,7 +17,7 @@ CREATE TABLE `User` (
 -- CreateTable
 CREATE TABLE `Travel` (
     `id` VARCHAR(191) NOT NULL,
-    `user_id` VARCHAR(191) NOT NULL,
+    `user_id` INTEGER NOT NULL,
     `driver_id` INTEGER NOT NULL,
     `distance` DOUBLE NOT NULL,
     `origin` JSON NOT NULL,
@@ -40,25 +41,10 @@ CREATE TABLE `Driver` (
     `car` VARCHAR(191) NOT NULL,
     `tax` DOUBLE NOT NULL,
     `min_distance` DOUBLE NOT NULL,
+    `rating` JSON NULL,
 
     UNIQUE INDEX `Driver_id_key`(`id`),
     UNIQUE INDEX `Driver_email_key`(`email`),
-    PRIMARY KEY (`id`)
-) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
--- CreateTable
-CREATE TABLE `Rating` (
-    `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `user_id` VARCHAR(191) NOT NULL,
-    `driver_id` INTEGER NOT NULL,
-    `travel_id` VARCHAR(191) NOT NULL,
-    `rating` INTEGER NOT NULL,
-    `description` VARCHAR(191) NOT NULL,
-
-    UNIQUE INDEX `Rating_id_key`(`id`),
-    INDEX `Rating_driver_id_fkey`(`driver_id`),
-    INDEX `Rating_travel_id_fkey`(`travel_id`),
-    INDEX `Rating_user_id_fkey`(`user_id`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -67,12 +53,3 @@ ALTER TABLE `Travel` ADD CONSTRAINT `Travel_driver_id_fkey` FOREIGN KEY (`driver
 
 -- AddForeignKey
 ALTER TABLE `Travel` ADD CONSTRAINT `Travel_user_id_fkey` FOREIGN KEY (`user_id`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE `Rating` ADD CONSTRAINT `Rating_driver_id_fkey` FOREIGN KEY (`driver_id`) REFERENCES `Driver`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE `Rating` ADD CONSTRAINT `Rating_travel_id_fkey` FOREIGN KEY (`travel_id`) REFERENCES `Travel`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE `Rating` ADD CONSTRAINT `Rating_user_id_fkey` FOREIGN KEY (`user_id`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

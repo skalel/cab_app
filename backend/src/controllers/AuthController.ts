@@ -25,7 +25,7 @@ async function login(req: Request, res: Response): Promise<void> {
 		res.json({ token });
 	} catch (error) {
 		console.error("Error during login:", error);
-		res.status(500).json({ message: "Internal Server Error" });
+		res.status(404).json({ message: "No user found with these credentials." });
 	} finally {
 		await prisma.$disconnect();
 	}
@@ -51,11 +51,11 @@ async function create(req: Request, res: Response) {
 				},
 			});
 			res.status(201).send({
-				data: user,
+				message: "User created successfully",
 			});
 		} else res.status(400).send("E-mail is already taken.");
 	} catch (error) {
-		res.status(500).send(error);
+		res.status(500).send({ error });
 	} finally {
 		await prisma.$disconnect();
 	}

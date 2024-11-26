@@ -6,8 +6,15 @@ import bcrypt from "bcrypt";
 export default class UserController {
 	public async all(req: Request, res: Response) {
 		try {
-			const users = await prisma.user.findMany();
-			res.status(200).send({ users })
+			const users = await prisma.user.findMany({
+				omit: {
+					role: true,
+					password: true,
+					created_at: true,
+					updated_at: true,
+				},
+			});
+			res.status(200).send({ users });
 		} catch (error) {
 			res.status(400).send(error);
 		} finally {
@@ -19,36 +26,45 @@ export default class UserController {
 		try {
 			const user = await prisma.user.findFirstOrThrow({
 				where: {
-					id: req.params.id
+					id: req.params.id,
+				},
+				omit: {
+					role: true,
+					password: true,
+					created_at: true,
+					updated_at: true,
 				}
-			})
-			res.status(200).send({ data: user })
+			});
+			res.status(200).send({ user });
 		} catch (error) {
-			res.status(404).send("User not found.")
+			res.status(404).send("User not found.");
 		} finally {
 			await prisma.$disconnect();
 		}
 	}
 
 	public async update(req: Request, res: Response) {
-		const hashedPassword = await bcrypt.hash(req.body.password, 10);
-
 		try {
 			const user = await prisma.user.update({
 				where: {
-					id: req.params.id
+					id: req.params.id,
+				},
+				omit: {
+					role: true,
+					password: true,
+					created_at: true,
+					updated_at: true,
 				},
 				data: {
 					name: req.body.name,
 					email: req.body.email,
 					telephone: req.body.telephone,
 					role: req.body.role,
-					password: hashedPassword
-				}
-			})
+				},
+			});
 			res.status(202).send({
-				data: user
-			})
+				user,
+			});
 		} catch (error) {
 			res.status(401).send(error);
 		} finally {
@@ -60,12 +76,12 @@ export default class UserController {
 		try {
 			const user = await prisma.user.delete({
 				where: {
-					id: req.params.id
-				}
-			})
+					id: req.params.id,
+				},
+			});
 			res.status(200).send({
-				data: user
-			})
+				message: "User deleted."
+			});
 		} catch (error) {
 			res.status(404).send(error);
 		} finally {

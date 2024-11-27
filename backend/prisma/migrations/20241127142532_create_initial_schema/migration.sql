@@ -20,16 +20,14 @@ CREATE TABLE `Travel` (
     `user_id` INTEGER NOT NULL,
     `driver_id` INTEGER NOT NULL,
     `distance` DOUBLE NOT NULL,
-    `origin` JSON NOT NULL,
-    `destiny` JSON NOT NULL,
+    `origin` VARCHAR(191) NOT NULL,
+    `destiny` VARCHAR(191) NOT NULL,
     `cost` DOUBLE NOT NULL,
-    `duration` DOUBLE NOT NULL,
-    `original_res` JSON NOT NULL,
+    `duration` VARCHAR(191) NOT NULL,
+    `original_res` JSON NULL,
     `status` ENUM('CREATED', 'IN_PROGRESS', 'FINISHED', 'CANCELED') NOT NULL DEFAULT 'CREATED',
 
     UNIQUE INDEX `Travel_id_key`(`id`),
-    INDEX `Travel_driver_id_fkey`(`driver_id`),
-    INDEX `Travel_user_id_fkey`(`user_id`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 

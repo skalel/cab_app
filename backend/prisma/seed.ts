@@ -26,7 +26,7 @@ async function main() {
 				min_distance:1000,
 				rating: {
 					"rating": 2,
-					"description": "Motorista simpático, mas errou o caminho 3 vezes. O carro cheira a donuts."
+					"comment": "Motorista simpático, mas errou o caminho 3 vezes. O carro cheira a donuts."
 				}
 			},
 			{
@@ -37,7 +37,7 @@ async function main() {
 				min_distance:5000,
 				rating: {
 					"rating": 4,
-					"description": "Que viagem incrível! O carro é um show à parte e o motorista, apesar de ter uma cara de poucos amigos, foi super gente boa. Recomendo!"
+					"comment": "Que viagem incrível! O carro é um show à parte e o motorista, apesar de ter uma cara de poucos amigos, foi super gente boa. Recomendo!"
 				}
 			},
 			{
@@ -48,7 +48,7 @@ async function main() {
 				min_distance:10000,
 				rating: {
 					"rating": 5,
-					"description": "Serviço impecável! O motorista é a própria definição de classe e o carro é simplesmente magnífico. Uma experiência digna de um agente secreto."
+					"comment": "Serviço impecável! O motorista é a própria definição de classe e o carro é simplesmente magnífico. Uma experiência digna de um agente secreto."
 				}
 			}
 		],

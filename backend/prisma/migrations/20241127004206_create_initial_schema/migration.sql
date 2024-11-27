@@ -24,6 +24,7 @@ CREATE TABLE `Travel` (
     `destiny` JSON NOT NULL,
     `cost` DOUBLE NOT NULL,
     `duration` DOUBLE NOT NULL,
+    `original_res` JSON NOT NULL,
     `status` ENUM('CREATED', 'IN_PROGRESS', 'FINISHED', 'CANCELED') NOT NULL DEFAULT 'CREATED',
 
     UNIQUE INDEX `Travel_id_key`(`id`),

@@ -21,17 +21,18 @@ model User {
 }
 
 model Travel {
-  id        String   @id @unique @default(uuid())
-  user_id   Int
-  driver_id Int
-  distance  Float
-  origin    Json
-  destiny   Json
-  cost      Float
-  duration  Float
-  status    Statuses @default(CREATED)
-  driver    Driver   @relation(fields: [driver_id], references: [id])
-  user      User     @relation(fields: [user_id], references: [id])
+  id           String   @id @unique @default(uuid())
+  user_id      Int
+  driver_id    Int
+  distance     Float
+  origin       Json
+  destiny      Json
+  cost         Float
+  duration     Float
+  original_res Json?
+  status       Statuses @default(CREATED)
+  driver       Driver   @relation(fields: [driver_id], references: [id])
+  user         User     @relation(fields: [user_id], references: [id])
 
   @@index([driver_id], map: "Travel_driver_id_fkey")
   @@index([user_id], map: "Travel_user_id_fkey")

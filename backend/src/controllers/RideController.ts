@@ -222,11 +222,87 @@ export default class RideController {
 		}
 	}
 
+	public async get(req: Request, res: Response): Promise<void> {
+		res.status(400).json({
+			error_code: "INVALID_DATA",
+			error_description: "A customer ID must be provided.",
+		});
+		return;
+	}
+
 	public async getRides(req: Request, res: Response): Promise<void> {
 		const { customer_id } = req.params;
-    const { driver_id } = req.query;
+		const { driver_id } = req.query;
 
-		console.error(customer_id, driver_id);
-		res.status(200).json({ customer_id, driver_id });
+		if (customer_id && isNaN(Number(customer_id))) {
+			res.status(400).json({
+				error_code: "INVALID_DATA",
+				error_description: "A customer ID must be provided.",
+			});
+			return;
+		}
+
+		if (driver_id && isNaN(Number(driver_id))) {
+			res.status(400).json({
+				error_code: "INVALID_DRIVER",
+				error_description: "Driver ID must be a valid number.",
+			});
+			return;
+		}
+
+		try {
+			const rides = await prisma.travel.findMany({
+				where: {
+					user_id: Number(customer_id),
+					...(driver_id ? { driver_id: Number(driver_id) } : {}),
+				},
+				orderBy: {
+					created_at: "desc",
+				},
+				select: {
+					id: true,
+					created_at: true,
+					origin: true,
+					destiny: true,
+					distance: true,
+					duration: true,
+					cost: true,
+					driver: {
+						select: {
+							id: true,
+							name: true,
+						},
+					},
+				},
+			});
+
+			if (rides.length === 0) {
+				res.status(404).json({
+					error_code: "NO_RIDES_FOUND",
+					error_description: "No rides found for the specified customer.",
+				});
+				return;
+			}
+
+			res.status(200).json({
+				customer_id,
+				rides: rides.map((ride) => ({
+					id: ride.id,
+					date: ride.created_at,
+					origin: ride.origin,
+					destination: ride.destiny,
+					distance: ride.distance,
+					duration: ride.duration,
+					driver: ride.driver,
+					value: ride.cost,
+				})),
+			});
+		} catch (error) {
+			console.error("Error fetching rides:", error);
+			res.status(500).json({
+				error_code: "INTERNAL_ERROR",
+				error_description: "An error occurred while fetching the rides.",
+			});
+		}
 	}
 }

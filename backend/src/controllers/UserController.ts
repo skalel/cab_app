@@ -15,9 +15,9 @@ export default class UserController {
 					updated_at: true,
 				},
 			});
-			res.status(200).send({ users });
+			res.status(200).json({ users });
 		} catch (error) {
-			res.status(400).send(error);
+			res.status(400).json(error);
 		} finally {
 			await prisma.$disconnect();
 		}
@@ -36,9 +36,9 @@ export default class UserController {
 					updated_at: true,
 				}
 			});
-			res.status(200).send({ user });
+			res.status(200).json({ user });
 		} catch (error) {
-			res.status(404).send("User not found.");
+			res.status(404).json("User not found.");
 		} finally {
 			await prisma.$disconnect();
 		}
@@ -63,11 +63,11 @@ export default class UserController {
 					role: req.body.role,
 				},
 			});
-			res.status(202).send({
+			res.status(202).json({
 				user,
 			});
 		} catch (error) {
-			res.status(401).send(error);
+			res.status(401).json(error);
 		} finally {
 			await prisma.$disconnect();
 		}
@@ -80,11 +80,11 @@ export default class UserController {
 					id: req.params.id,
 				},
 			});
-			res.status(200).send({
+			res.status(200).json({
 				message: "User deleted."
 			});
 		} catch (error) {
-			res.status(404).send(error);
+			res.status(404).json(error);
 		} finally {
 			await prisma.$disconnect();
 		}

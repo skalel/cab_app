@@ -11,9 +11,9 @@ export default class DriverController {
 	public async all(req: Request, res: Response) {
 		try {
 			const drivers = await prisma.driver.findMany();
-			res.status(200).send({ drivers });
+			res.status(200).json({ drivers });
 		} catch (error) {
-			res.status(400).send(error);
+			res.status(400).json(error);
 		} finally {
 			await prisma.$disconnect();
 		}
@@ -38,12 +38,12 @@ export default class DriverController {
 						min_distance: req.body.min_distance,
 					},
 				});
-				res.status(201).send({
+				res.status(201).json({
 					data: driver,
 				});
-			} else res.status(400).send("Driver already exists.");
+			} else res.status(400).json("Driver already exists.");
 		} catch (error) {
-			res.status(500).send(error);
+			res.status(500).json(error);
 		}
 	}
 
@@ -54,9 +54,9 @@ export default class DriverController {
 					id: Number(req.params.id),
 				},
 			});
-			res.status(200).send({ data: driver });
+			res.status(200).json({ data: driver });
 		} catch (error) {
-			res.status(404).send("Driver not found.");
+			res.status(404).json("Driver not found.");
 		} finally {
 			await prisma.$disconnect();
 		}
@@ -77,11 +77,11 @@ export default class DriverController {
 					min_distance: req.body.min_distance,
 				},
 			});
-			res.status(202).send({
+			res.status(202).json({
 				data: driver,
 			});
 		} catch (error) {
-			res.status(401).send(error);
+			res.status(401).json(error);
 		} finally {
 			await prisma.$disconnect();
 		}
@@ -94,11 +94,11 @@ export default class DriverController {
 					id: Number(req.params.id),
 				},
 			});
-			res.status(200).send({
+			res.status(200).json({
 				data: driver,
 			});
 		} catch (error) {
-			res.status(404).send(error);
+			res.status(404).json(error);
 		} finally {
 			await prisma.$disconnect();
 		}

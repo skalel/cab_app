@@ -57,12 +57,12 @@ async function create(req: Request, res: Response) {
 					password: req.body.password,
 				},
 			});
-			res.status(201).send({
+			res.status(201).json({
 				message: "User created successfully",
 			});
-		} else res.status(400).send("E-mail is already taken.");
+		} else res.status(400).json("E-mail is already taken.");
 	} catch (error) {
-		res.status(500).send({ error });
+		res.status(500).json({ error });
 	} finally {
 		await prisma.$disconnect();
 	}

@@ -30,6 +30,8 @@ model Travel {
   cost         Float
   duration     String
   original_res Json?
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
   status       Statuses @default(CREATED)
   driver       Driver   @relation(fields: [driver_id], references: [id])
   user         User     @relation(fields: [user_id], references: [id])

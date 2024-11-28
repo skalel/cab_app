@@ -13,7 +13,7 @@ RUN npm run build
 
 FROM nginx:1.21
 
-COPY --from=builder /dist/ /usr/share/nginx/html
+COPY --from=builder /app/dist /usr/share/nginx/html
 
 EXPOSE 80
 

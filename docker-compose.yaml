@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   frontend:
     build:
@@ -42,6 +40,9 @@ services:
     networks:
       - app-network
 
+volumes:
+  mysql-data:
+    driver: local
 
 networks:
-  app-network: # Rede compartilhada entre os serviços
+  app-network: 

@@ -12,7 +12,7 @@ const center = {
   lng: -38.531930,
 }
 
-const Maps: React.FC<MapsProps> = ({ destination, path }) => {
+const Maps: React.FC<MapsProps> = ({ path }) => {
   const mapStyles = { height: "100%", width: "100%" };
 
   return (

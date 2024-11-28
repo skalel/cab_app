@@ -10,14 +10,18 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@mapbox/polyline": "^1.2.1",
+    "@react-google-maps/api": "^2.20.3",
     "@types/react-router-dom": "^5.3.3",
     "axios": "^1.7.8",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-router-dom": "^7.0.1"
+    "react-router-dom": "^7.0.1",
+    "react-toastify": "^10.0.6"
   },
   "devDependencies": {
     "@eslint/js": "^9.15.0",
+    "@types/mapbox__polyline": "^1.0.5",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react": "^4.3.4",

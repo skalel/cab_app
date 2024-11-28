@@ -1,8 +1,6 @@
 services:
   mysql:
-    build:
-      context: ./mysql
-      dockerfile: Dockerfile
+    image: mysql:8.0
     container_name: mysql
     ports:
       - "3306:3306"
@@ -13,7 +11,7 @@ services:
       - mysql-data:/var/lib/mysql
     networks:
       - app-network
-      
+			
   frontend:
     build:
       context: ./frontend

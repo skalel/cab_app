@@ -2,14 +2,7 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-COPY package*.json ./
-COPY tsconfig.json ./
-COPY tsconfig.app.json ./
-COPY tsconfig.node.json ./
-COPY vite.config.ts ./
-COPY index.html ./
-COPY public ./public
-COPY src ./src
+COPY . .
 
 RUN npm install
 

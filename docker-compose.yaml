@@ -1,4 +1,19 @@
 services:
+  mysql:
+    build:
+      context: ./mysql
+      dockerfile: Dockerfile
+    container_name: mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: CABApp#mysql!
+      MYSQL_DATABASE: cab_app
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - app-network
+      
   frontend:
     build:
       context: ./frontend
@@ -24,19 +39,6 @@ services:
       - GOOGLE_API_KEY=
     depends_on:
       - mysql
-    networks:
-      - app-network
-
-  mysql:
-    image: mysql:8.0
-    container_name: mysql
-    ports:
-      - "3306:3306"
-    environment:
-      MYSQL_ROOT_PASSWORD: CABApp#mysql!
-      MYSQL_DATABASE: cab_app
-    volumes:
-      - mysql-data:/var/lib/mysql
     networks:
       - app-network
 

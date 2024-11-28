@@ -12,6 +12,17 @@ const GOOGLE_API_URL =
 	"https://routes.googleapis.com/directions/v2:computeRoutes?key=";
 
 export default class RideController {
+	public async all(req: Request, res: Response) {
+		try {
+			const drivers = await prisma.driver.findMany();
+			res.status(200).json({ drivers });
+		} catch (error) {
+			res.status(400).json(error);
+		} finally {
+			await prisma.$disconnect();
+		}
+	}
+
 	public async estimate(req: Request<Ride>, res: Response) {
 		const { customer_id, origin, destination } = req.body;
 
@@ -23,9 +34,11 @@ export default class RideController {
 			return;
 		}
 
+		const user_id = Number(customer_id);
+
 		const customer = await prisma.user.findMany({
 			where: {
-				id: customer_id,
+				id: user_id,
 			},
 		});
 
@@ -96,6 +109,7 @@ export default class RideController {
 
 			const estimatedValues = drivers.map((driver) => {
 				const value = calculateRideValue(distanceInMeters, driver.tax);
+				const roundedValue = value.toFixed(2)
 				return {
 					id: driver.id,
 					name: driver.name,
@@ -130,7 +144,10 @@ export default class RideController {
 		}
 
 		function calculateRideValue(distance: number, perKmRate: number): number {
-			return distance * perKmRate;
+			let valor = distance * perKmRate;
+			let valorPerKM = Number(valor);
+			const valorRounded = valorPerKM.toFixed(2);
+			return Number(valorRounded);
 		}
 	}
 
@@ -153,9 +170,11 @@ export default class RideController {
 			return;
 		}
 
+		const customerId = Number(customer_id);
+
 		const customer = await prisma.user.findMany({
 			where: {
-				id: customer_id,
+				id: customerId,
 			},
 		});
 
@@ -204,7 +223,8 @@ export default class RideController {
 					destiny: destination,
 					distance,
 					duration: duration,
-					cost: value
+					cost: value,
+					status: "FINISHED"
 				},
 			});
 

@@ -5,6 +5,7 @@ import RideController from "../controllers/RideController";
 const rideRouter = Router();
 const rideController = new RideController();
 
+rideRouter.get('/drivers', rideController.all);
 rideRouter.post('/estimate', rideController.estimate);
 rideRouter.patch('/confirm', rideController.confirm);
 rideRouter.get('/', rideController.get);

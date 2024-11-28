@@ -8,6 +8,9 @@ COPY src ./src
 
 RUN npm install
 
+RUN npm run migrate
+RUN npx prisma generate
+
 EXPOSE 8080
 
 CMD ["npm", "run", "dev"]

@@ -20,7 +20,7 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - DB_CONNECTION_STRING="mysql://root:CABApp#mysql!@@mysql:3306/cab_app"
+      - DB_CONNECTION_STRING="mysql://root:CABApp#mysql!@mysql:3306/cab_app"
       - GOOGLE_API_KEY=
     depends_on:
       - mysql

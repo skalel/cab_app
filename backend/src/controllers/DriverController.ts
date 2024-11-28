@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { prisma } from "../services/Prisma";
 
-import bcrypt from "bcrypt";
+// import {bcrypt} from "bcrypt";
 
 interface Driver {
 	id: number;

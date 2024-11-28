@@ -1,4 +1,4 @@
-import jwt from "jsonwebtoken";
+import { jwt } from "jsonwebtoken";
 
 class Auth {
 	private static readonly JWT_SECRET: string = process.env.JWT_SECRET || "";

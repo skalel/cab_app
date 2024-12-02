@@ -7,6 +7,8 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: CABApp#mysql!
       MYSQL_DATABASE: cab_app
+      MYSQL_USER: prod
+      MYSQL_PASSWORD: pr0d#Docker
     volumes:
       - mysql-data:/var/lib/mysql
     networks:
@@ -20,7 +22,7 @@ services:
       - "80:80"
     environment:
       - VITE_APP_API_URL=http://backend:8080
-      - VITE_GOOGLE_API_KEY
+      - VITE_GOOGLE_API_KEY=
     depends_on:
       - backend
     networks:
@@ -33,7 +35,7 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - DB_CONNECTION_STRING="mysql://root:CABApp#mysql!@mysql:3306/cab_app"
+      - DB_CONNECTION_STRING="mysql://prod:pr0d#Docker@mysql:3306/cab_app"
       - GOOGLE_API_KEY=
     depends_on:
       - mysql

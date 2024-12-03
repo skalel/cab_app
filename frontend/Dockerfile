@@ -4,14 +4,18 @@ WORKDIR /app
 
 COPY . .
 
+ARG VITE_APP_API_URL
+ARG GOOGLE_API_KEY
+
+ENV VITE_APP_API_URL=$VITE_APP_API_URL
+ENV GOOGLE_API_KEY=$GOOGLE_API_KEY
+
 RUN npm install
 
 COPY entry-point.sh ./entry-point.sh
 RUN chmod +x entry-point.sh
 
-RUN ./entry-point.sh
-
-RUN npm run build
+RUN ./entry-point.sh && npm run build
 
 FROM nginx:1.21
 

@@ -21,11 +21,11 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+      args:
+        VITE_APP_API_URL: http://localhost:8080
+        GOOGLE_API_KEY: 
     ports:
       - "80:80"
-    environment:
-      VITE_APP_API_URL: http://backend:8080
-      GOOGLE_API_KEY: 
     depends_on:
       - backend
     networks:

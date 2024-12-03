@@ -11,6 +11,7 @@ RUN npm install
 
 EXPOSE 8080
 
-CMD ["npm", "run", "migrate"]
+COPY entry-point.sh ./entry-point.sh
+RUN chmod +x entry-point.sh
 
-CMD ["npm", "run", "dev"]
+CMD ["sh", "-c", "./entry-point.sh && npx prisma migrate reset --force && npm run dev"]

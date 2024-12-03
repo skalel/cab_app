@@ -1,19 +1,22 @@
 services:
-  mysql:
+  db:
     image: mysql:8.0
-    container_name: mysql
+    container_name: db
     ports:
       - "3306:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     environment:
       MYSQL_ROOT_PASSWORD: CABApp#mysql!
       MYSQL_DATABASE: cab_app
-      MYSQL_USER: prod
-      MYSQL_PASSWORD: pr0d#Docker
     volumes:
       - mysql-data:/var/lib/mysql
     networks:
       - app-network
-			
+
   frontend:
     build:
       context: ./frontend
@@ -21,8 +24,8 @@ services:
     ports:
       - "80:80"
     environment:
-      - VITE_APP_API_URL=http://backend:8080
-      - VITE_GOOGLE_API_KEY=
+      VITE_APP_API_URL: http://backend:8080
+      GOOGLE_API_KEY: 
     depends_on:
       - backend
     networks:
@@ -35,10 +38,11 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - DB_CONNECTION_STRING="mysql://prod:pr0d#Docker@mysql:3306/cab_app"
-      - GOOGLE_API_KEY=
+      DB_CONNECTION_STRING: mysql://root:CABApp%23mysql%21@db:3306/cab_app
+      GOOGLE_API_KEY:
     depends_on:
-      - mysql
+      db:
+        condition: service_healthy
     networks:
       - app-network
 

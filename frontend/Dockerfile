@@ -1,10 +1,15 @@
-FROM node:18-alpine
+FROM node:18-alpine AS builder
 
 WORKDIR /app
 
 COPY . .
 
 RUN npm install
+
+COPY entry-point.sh ./entry-point.sh
+RUN chmod +x entry-point.sh
+
+RUN ./entry-point.sh
 
 RUN npm run build
 

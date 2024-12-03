@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import HttpConnect from "../services/HttpConnect";
 
 const EstimateRide = () => {
   const navigate = useNavigate();
@@ -8,17 +9,31 @@ const EstimateRide = () => {
     origin: "",
     destination: "",
   });
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = () => {
-    if (!form.customer_id || !form.origin || !form.destination) {
-      alert("Por favor, preencha todos os campos!");
-      return;
+  const handleSubmit = async () => {
+    setLoading(true);
+    try {
+      const response = await HttpConnect.post("/ride/estimate", {
+        customer_id: form.customer_id,
+        origin: form.origin,
+        destination: form.destination,
+      });
+
+      if (response.data) {
+        navigate("/ride", { state: form });
+      } else {
+        console.error("Erro na validação: " + response.data.message);
+      }
+    } catch (error) {
+      console.error("Erro ao validar os dados:", error);
+    } finally {
+      setLoading(false);
     }
-    navigate("/ride", { state: form });
   };
 
   return (
@@ -40,7 +55,7 @@ const EstimateRide = () => {
           <input
             type="text"
             name="origin"
-            placeholder="Origem"
+            placeholder="Origem: 'Av. Antônio Carlos Magalhães, Salvador, Bahia'"
             value={form.origin}
             onChange={handleChange}
             className="w-full p-3 border rounded focus:outline-none focus:ring focus:ring-blue-300"
@@ -48,7 +63,7 @@ const EstimateRide = () => {
           <input
             type="text"
             name="destination"
-            placeholder="Destino"
+            placeholder="Destino: 'BA-099 - Abrantes, Camaçari - BA'"
             value={form.destination}
             onChange={handleChange}
             className="w-full p-3 border rounded focus:outline-none focus:ring focus:ring-blue-300"
@@ -56,8 +71,9 @@ const EstimateRide = () => {
           <button
             onClick={handleSubmit}
             className="w-full bg-blue-500 text-white py-3 rounded hover:bg-blue-600 transition"
+            disabled={loading}
           >
-            Estimar Viagem
+            {loading ? "Estimando..." : "Estimar Viagem"}
           </button>
         </div>
       </div>

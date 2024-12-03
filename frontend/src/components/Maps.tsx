@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { GoogleMap, LoadScript, PolylineF } from "@react-google-maps/api";
 
 interface MapsProps {
@@ -7,19 +7,36 @@ interface MapsProps {
   path: { lat: number; lng: number }[];
 }
 
-const center = {
-  lat: -13.009930,
-  lng: -38.531930,
-}
-
 const Maps: React.FC<MapsProps> = ({ path }) => {
+  const [center, setCenter] = useState<{ lat: number; lng: number } | undefined>(
+    undefined
+  );
+
+  useEffect(() => {
+    const calculateCenter = () => {
+      const totalPoints = path.length;
+      const { lat, lng } = path.reduce(
+        (acc, point) => ({
+          lat: acc.lat + point.lat,
+          lng: acc.lng + point.lng,
+        }),
+        { lat: 0, lng: 0 }
+      );
+
+      return { lat: lat / totalPoints, lng: lng / totalPoints };
+    };
+
+    setCenter(calculateCenter());
+
+  }, [path]);
+
   const mapStyles = { height: "100%", width: "100%" };
 
   return (
     <LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_API_KEY}>
       <GoogleMap
         mapContainerStyle={mapStyles}
-        zoom={14}
+        zoom={12}
         center={center}
       >
         <PolylineF

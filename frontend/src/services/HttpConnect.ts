@@ -11,7 +11,7 @@ const HttpConnect = axios.create({
 HttpConnect.interceptors.response.use(
   (response) => response,
   (error: AxiosError) => {
-    // @ts-ignore
+    // @ts-expect-error expect undefined
     const errorMessage = error.response?.data?.error_description || "Ocorreu um erro desconhecido!";
     toast.error(errorMessage);
     return Promise.reject(error);

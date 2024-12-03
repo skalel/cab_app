@@ -109,14 +109,14 @@ export default class RideController {
 
 			const estimatedValues = drivers.map((driver) => {
 				const value = calculateRideValue(distanceInMeters, driver.tax);
-				const roundedValue = value.toFixed(2)
+				const roundedValue = (value / 1000).toFixed(2);
 				return {
 					id: driver.id,
 					name: driver.name,
 					description: driver.description,
 					vehicle: driver.car,
 					review: driver.rating,
-					value: value / 1000,
+					value: parseFloat(roundedValue),
 				};
 			});
 
@@ -145,9 +145,7 @@ export default class RideController {
 
 		function calculateRideValue(distance: number, perKmRate: number): number {
 			let valor = distance * perKmRate;
-			let valorPerKM = Number(valor);
-			const valorRounded = valorPerKM.toFixed(2);
-			return Number(valorRounded);
+			return parseFloat(valor.toFixed(2));
 		}
 	}
 

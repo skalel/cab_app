@@ -44,7 +44,7 @@ const RideHistory: React.FC = () => {
 
   const navigate = useNavigate();
   const returnIndex = () => {
-    navigate("/ride");
+    navigate("/");
   }
 
   return (

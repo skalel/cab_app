@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import HttpConnect from "../services/HttpConnect";
 import { decodePolyline } from "../services/DecodePolyline";
 import Maps from "../components/Maps";
 
 const RequestRide = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const formData = location.state as {
     customer_id: string;
     origin: string;
@@ -76,7 +77,7 @@ const RequestRide = () => {
         value: selectedDriver.value,
       });
       alert("Viagem confirmada!");
-      window.location.replace("/history");
+      navigate("/history");
     } catch (error) {
       console.error("Erro ao confirmar a viagem:", error);
     }
@@ -95,14 +96,16 @@ const RequestRide = () => {
 
   if (error) {
     return (
-      <div className="flex items-center justify-center text-center h-screen">
-        <p className="text-red-500">{error}</p>
-        <button
-          onClick={() => window.location.replace("/")}
-          className="bg-blue-500 text-white py-2 px-4 rounded mt-4"
-        >
-          Voltar ao início
-        </button>
+      <div className="flex items-center justify-center text-center h-screen bg-gray-900">
+        <div className="flex flex-col items-center justify-center space-y-4">
+          <p className="text-red-500">{error}</p>
+          <button
+            onClick={() => window.location.replace("/")}
+            className="bg-blue-500 text-white py-2 px-4 rounded mt-4"
+          >
+            Voltar ao início
+          </button>
+        </div>
       </div>
     );
   }

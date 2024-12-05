@@ -23,7 +23,7 @@ services:
       dockerfile: Dockerfile
       args:
         VITE_APP_API_URL: http://localhost:8080
-        GOOGLE_API_KEY: 
+        GOOGLE_API_KEY: ${GOOGLE_API_KEY}
     ports:
       - "80:80"
     depends_on:
@@ -39,7 +39,7 @@ services:
       - "8080:8080"
     environment:
       DB_CONNECTION_STRING: mysql://root:CABApp%23mysql%21@db:3306/cab_app
-      GOOGLE_API_KEY:
+      GOOGLE_API_KEY: ${GOOGLE_API_KEY}
     depends_on:
       db:
         condition: service_healthy

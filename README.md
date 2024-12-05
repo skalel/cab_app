@@ -1,6 +1,12 @@
-# Teste técnico Desenvolvedor Fullstack (Shopper)
+# Teste técnico Desenvolvedor Fullstack
 
 ## Detalhes
+
+Deve conter um arquivo docker-compose.yml na raiz do seu repositório. 
+
+* O docker-compose deve ser capaz de subir a aplicação e todos os serviços necessários com o comando docker-compose up.
+* O backend da aplicação deve ficar exposto na porta 8080.
+* O frontend da aplicação deve ficar exposto na porta 80.
 
 ### Backend 
 
